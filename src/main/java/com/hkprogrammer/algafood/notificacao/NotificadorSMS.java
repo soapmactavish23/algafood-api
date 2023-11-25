@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.hkprogrammer.algafood.models.Cliente;
 
 @Component
+@TipoNotificador(NivelUrgencia.URGENTE)
 public class NotificadorSMS implements Notificador {
 
 	@Override
