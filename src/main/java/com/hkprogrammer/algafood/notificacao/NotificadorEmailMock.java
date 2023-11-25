@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 
 import com.hkprogrammer.algafood.models.Cliente;
 
-@Profile("prod")
+@Profile("dev")
 @Component
 @TipoNotificador(NivelUrgencia.SEM_URGENCIA)
-public class NotificadorEmail implements Notificador {
+public class NotificadorEmailMock implements Notificador {
 
 	public void notificar(Cliente cliente, String message) {
-		System.out.printf("Notificando %s através do e-mail %s: %s\n", cliente.getNome(), cliente.getEmail(), message);
+		System.out.printf("Mock: Notificação seria enviada para %s através do e-mail %s: %s\n", cliente.getNome(), cliente.getEmail(), message);
 	}
 	
 }
