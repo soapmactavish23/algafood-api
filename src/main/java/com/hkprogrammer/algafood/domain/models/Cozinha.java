@@ -1,4 +1,4 @@
-package com.hkprogrammer.algafood.models;
+package com.hkprogrammer.algafood.domain.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

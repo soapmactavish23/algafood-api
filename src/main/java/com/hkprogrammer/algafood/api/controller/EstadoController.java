@@ -1,5 +1,4 @@
-package com.hkprogrammer.algafood.controller;
-
+package com.hkprogrammer.algafood.api.controller;
 
 import java.util.List;
 
@@ -8,18 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hkprogrammer.algafood.models.Estado;
-import com.hkprogrammer.algafood.repository.EstadoRepository;
+import com.hkprogrammer.algafood.domain.models.Estado;
+import com.hkprogrammer.algafood.domain.repository.EstadoRepository;
 
 @RestController
 @RequestMapping("/estados")
 public class EstadoController {
 
 	@Autowired
-	private EstadoRepository repository;
+	private EstadoRepository estadoRepository;
 	
-	@GetMapping()
-	public List<Estado> findAll() {
-		return repository.findAll();
+	@GetMapping
+	public List<Estado> listar() {
+		return estadoRepository.listar();
 	}
+	
 }
