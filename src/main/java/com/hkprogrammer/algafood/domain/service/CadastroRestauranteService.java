@@ -1,5 +1,7 @@
 package com.hkprogrammer.algafood.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,10 @@ public class CadastroRestauranteService {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	public List<Restaurante> listar() {
+		return repository.listar();
+	}
 
 	public Restaurante salvar(Restaurante restaurante) {
 
@@ -39,10 +45,10 @@ public class CadastroRestauranteService {
 	public Restaurante atualizar(Long id, Restaurante obj) {
 		Restaurante objSaved = buscar(id);
 		
-		Long cozinhaId = obj.getCozinha().getId();
+		Long cozinhaId = objSaved.getCozinha().getId();
 		cozinhaExists(cozinhaId);
 		
-		BeanUtils.copyProperties(objSaved, obj, "id");
+		BeanUtils.copyProperties(obj, objSaved, "id");
 		
 
 		return repository.salvar(objSaved);
