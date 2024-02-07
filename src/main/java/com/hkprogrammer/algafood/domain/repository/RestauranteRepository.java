@@ -1,14 +1,15 @@
 package com.hkprogrammer.algafood.domain.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hkprogrammer.algafood.domain.models.Restaurante;
 
-public interface RestauranteRepository {
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
 
-	List<Restaurante> listar();
-	Restaurante buscar(Long id);
-	Restaurante salvar(Restaurante restaurante);
-	void remover(Restaurante restaurante);
+	public List<Restaurante> findByTaxaFreteBetween(BigDecimal tx1, BigDecimal tx2);
 	
 }
+

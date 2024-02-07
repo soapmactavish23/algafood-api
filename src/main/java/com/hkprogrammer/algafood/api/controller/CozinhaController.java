@@ -33,13 +33,13 @@ public class CozinhaController {
 	private CadastroCozinhaService cadastroService;
 	
 	@GetMapping
-	public List<Cozinha> listar() {
-		return cozinhaRepository.listar();
+	public List<Cozinha> listar(String nome) {
+		return cozinhaRepository.findByNomeContaining(nome);
 	}
 
 	@GetMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
-		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+		Cozinha cozinha = cozinhaRepository.findById(cozinhaId).get();
 		
 		if (cozinha != null) {
 			return ResponseEntity.ok(cozinha);
@@ -57,12 +57,12 @@ public class CozinhaController {
 	@PutMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId,
 			@RequestBody Cozinha cozinha) {
-		Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
+		Cozinha cozinhaAtual = cozinhaRepository.findById(cozinhaId).get();
 		
 		if (cozinhaAtual != null) {
 			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 			
-			cozinhaAtual = cozinhaRepository.salvar(cozinhaAtual);
+			cozinhaAtual = cozinhaRepository.save(cozinhaAtual);
 			return ResponseEntity.ok(cozinhaAtual);
 		}
 		

@@ -1,5 +1,6 @@
 package com.hkprogrammer.algafood.domain.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -21,8 +22,12 @@ public class CadastroRestauranteService {
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 	
+	public List<Restaurante> findByTaxa(BigDecimal tx1, BigDecimal tx2) {
+		return repository.findByTaxaFreteBetween(tx1, tx2);
+	}
+	
 	public List<Restaurante> listar() {
-		return repository.listar();
+		return repository.findAll();
 	}
 
 	public Restaurante salvar(Restaurante restaurante) {
@@ -30,11 +35,11 @@ public class CadastroRestauranteService {
 		Long cozinhaId = restaurante.getCozinha().getId();
 		cozinhaExists(cozinhaId);
 
-		return repository.salvar(restaurante);
+		return repository.save(restaurante);
 	}
 
 	public void cozinhaExists(Long cozinhaId) {
-		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);		
+		Cozinha cozinha = cozinhaRepository.findById(cozinhaId).get();		
 
 		if (cozinha == null) {
 			throw new EntidadeNaoEncontradaException(
@@ -51,11 +56,11 @@ public class CadastroRestauranteService {
 		BeanUtils.copyProperties(obj, objSaved, "id");
 		
 
-		return repository.salvar(objSaved);
+		return repository.save(objSaved);
 	}
 	
 	public Restaurante buscar(Long id) {
-		Restaurante restaurante = repository.buscar(id);
+		Restaurante restaurante = repository.findById(id).get();
 		if(restaurante == null) {
 			throw new EntidadeNaoEncontradaException("Restaurante não encontrado");
 		}

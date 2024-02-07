@@ -1,6 +1,7 @@
 package com.hkprogrammer.algafood.api.controller;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,11 @@ public class RestauranteController {
 
 	@Autowired
 	private CadastroRestauranteService service;
+	
+	@GetMapping("/taxa")
+	public List<Restaurante> findByTaxa(BigDecimal tx1, BigDecimal tx2) {
+		return service.findByTaxa(tx1, tx2);
+	}
 
 	@GetMapping
 	public List<Restaurante> listar() {
