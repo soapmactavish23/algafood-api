@@ -53,7 +53,7 @@ public class CadastroRestauranteService {
 		Long cozinhaId = objSaved.getCozinha().getId();
 		cozinhaExists(cozinhaId);
 		
-		BeanUtils.copyProperties(obj, objSaved, "id");
+		BeanUtils.copyProperties(obj, objSaved, "id", "formasPagamento");
 		
 
 		return repository.save(objSaved);
