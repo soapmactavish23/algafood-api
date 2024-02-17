@@ -39,6 +39,12 @@ public class RestauranteController {
 	public List<Restaurante> listar() {
 		return service.listar();
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Restaurante> findById(@PathVariable Long id) {
+		Restaurante restaurante = service.findById(id);
+		return ResponseEntity.ok(restaurante);
+	}
 
 	@PostMapping
 	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {

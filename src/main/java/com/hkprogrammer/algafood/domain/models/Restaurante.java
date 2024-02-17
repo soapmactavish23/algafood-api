@@ -46,6 +46,7 @@ public class Restaurante {
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 	
 	@Embedded
+	@JsonIgnore
 	private Endereco endereco;
 	
 }

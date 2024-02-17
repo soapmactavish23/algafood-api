@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.hkprogrammer.algafood.domain.exception.EntidadeNaoEncontradaException;
@@ -28,6 +29,10 @@ public class CadastroRestauranteService {
 	
 	public List<Restaurante> listar() {
 		return repository.findAll();
+	}
+	
+	public Restaurante findById(Long id) {
+		return repository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
 	}
 
 	public Restaurante salvar(Restaurante restaurante) {
@@ -53,7 +58,7 @@ public class CadastroRestauranteService {
 		Long cozinhaId = objSaved.getCozinha().getId();
 		cozinhaExists(cozinhaId);
 		
-		BeanUtils.copyProperties(obj, objSaved, "id", "formasPagamento");
+		BeanUtils.copyProperties(obj, objSaved, "id", "formasPagamento", "endereco");
 		
 
 		return repository.save(objSaved);
