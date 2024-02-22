@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,14 +35,8 @@ public class CozinhaController {
 	}
 
 	@GetMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
-		Cozinha cozinha = cozinhaRepository.findById(cozinhaId).get();
-
-		if (cozinha != null) {
-			return ResponseEntity.ok(cozinha);
-		}
-
-		return ResponseEntity.notFound().build();
+	public Cozinha buscar(@PathVariable Long cozinhaId) {
+		return cadastroService.buscarOuFalhar(cozinhaId);
 	}
 
 	@PostMapping
@@ -53,31 +46,13 @@ public class CozinhaController {
 	}
 
 	@PutMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
-		Cozinha cozinhaAtual = cozinhaRepository.findById(cozinhaId).get();
+	public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
+		Cozinha cozinhaAtual = cadastroService.buscarOuFalhar(cozinhaId);
 
-		if (cozinhaAtual != null) {
-			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-
-			cozinhaAtual = cozinhaRepository.save(cozinhaAtual);
-			return ResponseEntity.ok(cozinhaAtual);
-		}
-
-		return ResponseEntity.notFound().build();
+		BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+		
+		return cozinhaRepository.save(cozinhaAtual);
 	}
-
-//	@DeleteMapping("/{cozinhaId}")
-//	public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
-//		try {
-//			cadastroService.excluir(cozinhaId);
-//			
-//			return ResponseEntity.noContent().build();
-//		} catch (EntidadeEmUsoException e) {
-//			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-//		} catch (EntidadeNaoEncontradaException e) {
-//			return ResponseEntity.notFound().build();
-//		}
-//	}
 
 	@DeleteMapping("/{cozinhaId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
