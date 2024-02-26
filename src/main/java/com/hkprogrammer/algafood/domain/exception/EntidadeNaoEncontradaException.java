@@ -1,15 +1,10 @@
 package com.hkprogrammer.algafood.domain.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+public abstract class EntidadeNaoEncontradaException extends NegocioException {
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class EntidadeNaoEncontradaException extends NegocioException {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-
-	public EntidadeNaoEncontradaException(String msg) {
-		super(msg);
-	}
-
-}
+    public EntidadeNaoEncontradaException(String mensagem) {
+        super(mensagem);
+    }   
+} 
