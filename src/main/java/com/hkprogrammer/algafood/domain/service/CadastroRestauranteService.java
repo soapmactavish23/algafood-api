@@ -3,16 +3,13 @@ package com.hkprogrammer.algafood.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hkprogrammer.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.hkprogrammer.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.hkprogrammer.algafood.domain.models.Cozinha;
 import com.hkprogrammer.algafood.domain.models.Restaurante;
 import com.hkprogrammer.algafood.domain.repository.RestauranteRepository;
 
 @Service
 public class CadastroRestauranteService {
-
-	private static final String MSG_RESTAURANTE_NAO_ENCONTRADO 
-		= "Não existe um cadastro de restaurante com código %d";
 	
 	@Autowired
 	private RestauranteRepository restauranteRepository;
@@ -35,9 +32,8 @@ public class CadastroRestauranteService {
 	}
 	
 	public Restaurante buscarOuFalhar(Long restauranteId) {
-		return restauranteRepository.findById(restauranteId)
-			.orElseThrow(() -> new EntidadeNaoEncontradaException(
-					String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, restauranteId)));
+	    return restauranteRepository.findById(restauranteId)
+	        .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
 	}
 	
 }
