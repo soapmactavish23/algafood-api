@@ -43,9 +43,6 @@ public class RestauranteController {
 
 	@GetMapping
 	public List<Restaurante> listar() {
-		if(true) {
-			throw new IllegalArgumentException("Teste");
-		}
 		return restauranteRepository.findAll();
 	}
 
