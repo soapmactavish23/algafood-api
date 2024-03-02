@@ -20,7 +20,7 @@ import lombok.Data;
 public class Cozinha {
 
 	@Id
-	@NotNull(groups = Groups.CadastroRestaurante.class)
+	@NotNull(groups = Groups.CozinhaId.class)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
