@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hkprogrammer.algafood.Groups;
+import com.hkprogrammer.algafood.core.validation.Groups;
 
 import lombok.Data;
 

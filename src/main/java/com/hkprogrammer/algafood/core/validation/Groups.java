@@ -1,4 +1,4 @@
-package com.hkprogrammer.algafood;
+package com.hkprogrammer.algafood.core.validation;
 
 public interface Groups {
 
