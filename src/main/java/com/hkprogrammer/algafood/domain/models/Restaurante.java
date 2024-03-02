@@ -50,10 +50,10 @@ public class Restaurante {
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
-	@Valid
+	//@Valid
 	@NotNull
 	@ManyToOne
-	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+	//@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
