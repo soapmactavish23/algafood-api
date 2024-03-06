@@ -18,17 +18,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hkprogrammer.algafood.core.validation.TaxaFrete;
+import com.hkprogrammer.algafood.core.validation.ValorZeroIncluiDescricao;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", 
+	descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
