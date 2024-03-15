@@ -24,6 +24,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hkprogrammer.algafood.core.validation.TaxaFrete;
 import com.hkprogrammer.algafood.core.validation.ValorZeroIncluiDescricao;
 
@@ -56,6 +57,7 @@ public class Restaurante {
 	@NotNull
 	@ManyToOne
 	//@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+	@JsonIgnoreProperties(value = "nome", allowGetters = true)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
