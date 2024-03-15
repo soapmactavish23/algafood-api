@@ -1,5 +1,7 @@
 package com.hkprogrammer.algafood.domain.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,20 +25,18 @@ public class CadastroCidadeService {
 	@Autowired
 	private CadastroEstadoService cadastroEstado;
 	
+	@Transactional
 	public Cidade salvar(Cidade cidade) {
 		Long estadoId = cidade.getEstado().getId();
 
 		Estado estado = cadastroEstado.buscarOuFalhar(estadoId);
-		
-//		Estado estado = estadoRepository.findById(estadoId)
-//			.orElseThrow(() -> new EntidadeNaoEncontradaException(
-//					String.format("Não existe cadastro de estado com código %d", estadoId)));
 		
 		cidade.setEstado(estado);
 		
 		return cidadeRepository.save(cidade);
 	}
 	
+	@Transactional
 	public void excluir(Long cidadeId) {
 	    try {
 	        cidadeRepository.deleteById(cidadeId);
