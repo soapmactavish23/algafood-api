@@ -1,4 +1,4 @@
-package com.hkprogrammer.algafood.domain.models.mixin;
+package com.hkprogrammer.algafood.api.model.mixin;
 
 import java.util.ArrayList;
 import java.util.List;

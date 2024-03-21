@@ -1,4 +1,4 @@
-package com.hkprogrammer.algafood.domain.models.mixin;
+package com.hkprogrammer.algafood.api.model.mixin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hkprogrammer.algafood.domain.models.Estado;
