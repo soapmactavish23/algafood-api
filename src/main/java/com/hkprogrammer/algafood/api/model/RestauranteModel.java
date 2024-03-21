@@ -2,8 +2,6 @@ package com.hkprogrammer.algafood.api.model;
 
 import java.math.BigDecimal;
 
-import com.hkprogrammer.algafood.domain.models.Cozinha;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +15,6 @@ public class RestauranteModel {
 	
 	private BigDecimal taxaFrete;
 	
-	private Cozinha cozinha;
+	private CozinhaModel cozinha;
 	
 }
