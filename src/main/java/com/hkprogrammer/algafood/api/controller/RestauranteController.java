@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hkprogrammer.algafood.api.assembler.RestauranteInputDisassembler;
 import com.hkprogrammer.algafood.api.assembler.RestauranteModelAssembler;
 import com.hkprogrammer.algafood.api.model.RestauranteModel;
 import com.hkprogrammer.algafood.api.model.input.RestauranteInput;
 import com.hkprogrammer.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.hkprogrammer.algafood.domain.exception.NegocioException;
-import com.hkprogrammer.algafood.domain.models.Cozinha;
 import com.hkprogrammer.algafood.domain.models.Restaurante;
 import com.hkprogrammer.algafood.domain.repository.RestauranteRepository;
 import com.hkprogrammer.algafood.domain.service.CadastroRestauranteService;
@@ -38,6 +38,9 @@ public class RestauranteController {
 
 	@Autowired
 	private RestauranteModelAssembler restauranteModelAssembler;
+	
+	@Autowired
+	private RestauranteInputDisassembler restauranteInputDisassembler;      
 
 	@GetMapping
 	public List<RestauranteModel> listar() {
@@ -57,7 +60,7 @@ public class RestauranteController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
-			Restaurante restaurante = toDomainObject(restauranteInput);
+			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 			
 			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restaurante));
 		} catch (CozinhaNaoEncontradaException e) {
@@ -67,7 +70,7 @@ public class RestauranteController {
 
 	@PutMapping("/{restauranteId}")
 	public RestauranteModel atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restauranteInput) {
-		Restaurante restaurante = toDomainObject(restauranteInput);
+		Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 		
 		Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
@@ -79,17 +82,6 @@ public class RestauranteController {
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
-	}
-
-	private Restaurante toDomainObject(RestauranteInput restauranteInput) {
-		Restaurante restaurante = new Restaurante();
-		restaurante.setNome(restauranteInput.getNome());
-		restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
-		
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(restauranteInput.getCozinha().getId());
-		
-		return restaurante;
 	}
 	
 }
