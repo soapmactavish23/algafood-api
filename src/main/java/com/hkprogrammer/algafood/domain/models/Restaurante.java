@@ -45,7 +45,7 @@ public class Restaurante {
 	@Column(nullable = false)
 	private String nome;
 	
-	@NotNull 
+	@NotNull
 	@TaxaFrete
 	@PositiveOrZero
 	@Column(name = "taxa_frete", nullable = false)
