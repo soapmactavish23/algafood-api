@@ -8,12 +8,10 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.PositiveOrZero;
 
 @Target({ ElementType.TYPE })
 @Retention(RUNTIME)
 @Constraint(validatedBy = { })
-@PositiveOrZero
 public @interface ValorZeroIncluiDescricao {
 
 	String message() default "descrição obrigatória inválida";
