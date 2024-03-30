@@ -38,9 +38,9 @@ public class RestauranteController {
 
 	@Autowired
 	private RestauranteModelAssembler restauranteModelAssembler;
-	
+
 	@Autowired
-	private RestauranteInputDisassembler restauranteInputDisassembler;      
+	private RestauranteInputDisassembler restauranteInputDisassembler;
 
 	@GetMapping
 	public List<RestauranteModel> listar() {
@@ -61,7 +61,7 @@ public class RestauranteController {
 	public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
 			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
-			
+
 			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restaurante));
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
@@ -69,13 +69,18 @@ public class RestauranteController {
 	}
 
 	@PutMapping("/{restauranteId}")
-	public RestauranteModel atualizar(@PathVariable Long restauranteId, @RequestBody @Valid RestauranteInput restauranteInput) {
-		Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
-		
+	public RestauranteModel atualizar(@PathVariable Long restauranteId,
+			@RequestBody @Valid RestauranteInput restauranteInput) {
+		// Restaurante restaurante =
+		// restauranteInputDisassembler.toDomainObject(restauranteInput);
+		System.out.println(restauranteId);
 		Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-		BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
-				"produtos");
+		restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
+
+		// BeanUtils.copyProperties(restaurante, restauranteAtual, "id",
+		// "formasPagamento", "endereco", "dataCadastro",
+		// "produtos");
 
 		try {
 			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restauranteAtual));
@@ -83,5 +88,5 @@ public class RestauranteController {
 			throw new NegocioException(e.getMessage());
 		}
 	}
-	
+
 }
