@@ -20,6 +20,7 @@ import com.hkprogrammer.algafood.api.assembler.RestauranteInputDisassembler;
 import com.hkprogrammer.algafood.api.assembler.RestauranteModelAssembler;
 import com.hkprogrammer.algafood.api.model.RestauranteModel;
 import com.hkprogrammer.algafood.api.model.input.RestauranteInput;
+import com.hkprogrammer.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.hkprogrammer.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.hkprogrammer.algafood.domain.exception.NegocioException;
 import com.hkprogrammer.algafood.domain.models.Restaurante;
@@ -63,7 +64,7 @@ public class RestauranteController {
 			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
 			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restaurante));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
@@ -77,7 +78,7 @@ public class RestauranteController {
 
 		try {
 			return restauranteModelAssembler.toModel(cadastroRestaurante.salvar(restauranteAtual));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.hkprogrammer.algafood.api.model.input.RestauranteInput;
+import com.hkprogrammer.algafood.domain.models.Cidade;
 import com.hkprogrammer.algafood.domain.models.Cozinha;
 import com.hkprogrammer.algafood.domain.models.Restaurante;
 
@@ -20,6 +21,11 @@ public class RestauranteInputDisassembler {
 
     public void copyToDomainObject(RestauranteInput restauranteInput, Restaurante restaurante) {
         restaurante.setCozinha(new Cozinha());
+
+        if (restaurante.getEndereco().getCidade() != null) {
+            restaurante.getEndereco().setCidade(new Cidade());
+        }
+
         modelMapper.map(restauranteInput, restaurante);
     }
 
