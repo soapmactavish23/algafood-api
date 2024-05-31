@@ -64,6 +64,16 @@ public class Restaurante {
 	private List<Produto> produtos = new ArrayList<>();
 
 	private Boolean ativo = Boolean.TRUE;
+	
+	private Boolean aberto = Boolean.FALSE;
+
+	public void abrir() {
+	    setAberto(true);
+	}
+
+	public void fechar() {
+	    setAberto(false);
+	}
 
 	public void ativar() {
 		setAtivo(true);
