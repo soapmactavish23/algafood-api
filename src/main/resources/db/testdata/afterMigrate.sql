@@ -278,4 +278,9 @@ values
     );
     
 insert into grupo (id, nome) values (1, 'Gerente'), (2, 'Vendedor'), (3, 'Secretária'), (4, 'Cadastrador');
-insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
+
+INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `data_cadastro`) VALUES (1, 'Joao Costa', 'joao@email.com', '123456', '2024-06-04 17:37:59');
+INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `data_cadastro`) VALUES (2, 'Lucas Silva', 'lucas.silva@email.com', '123456', '2024-06-04 17:38:18'); 
+
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);
