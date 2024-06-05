@@ -111,4 +111,4 @@ values (2, 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
         'CRIADO', utc_timestamp, 79, 0, 79);
 
 insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
-values (3, 2, 6, 1, 79, 79, 'Ao ponto');
+values (3, 2, 6, 1, 79, 79, 'Ao ponto'); 
