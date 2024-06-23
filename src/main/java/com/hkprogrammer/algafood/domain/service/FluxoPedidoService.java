@@ -5,26 +5,30 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hkprogrammer.algafood.domain.exception.NegocioException;
 import com.hkprogrammer.algafood.domain.models.Pedido;
-import com.hkprogrammer.algafood.domain.models.StatusPedido;
 
 @Service
 public class FluxoPedidoService {
 
 	@Autowired
-	private EmissaoPedidoService emissaoPedidoService;
+	private EmissaoPedidoService emissaoPedido;
 
 	@Transactional
 	public void confirmar(Long pedidoId) {
+		Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoId);
+		pedido.confirmar();
+	}
+	
+	@Transactional
+	public void cancelar(Long pedidoId) {
+	    Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoId);
+	    pedido.cancelar();
+	}
 
-		Pedido pedido = emissaoPedidoService.buscarOuFalhar(pedidoId);
-
-		if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
-			throw new NegocioException(String.format("Status do pedido %d não pode ser alterado de %s para %s",
-					pedido.getId(), pedido.getStatus(), StatusPedido.CONFIRMADO));
-		}
-
+	@Transactional
+	public void entregar(Long pedidoId) {
+	    Pedido pedido = emissaoPedido.buscarOuFalhar(pedidoId);
+	    pedido.cancelar();
 	}
 
 }
