@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.hkprogrammer.algafood.api.assembler.RestauranteInputDisassembler;
 import com.hkprogrammer.algafood.api.assembler.RestauranteModelAssembler;
 import com.hkprogrammer.algafood.api.model.RestauranteModel;
