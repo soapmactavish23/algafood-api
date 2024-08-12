@@ -30,7 +30,9 @@ import com.hkprogrammer.algafood.domain.exception.NegocioException;
 import com.hkprogrammer.algafood.domain.models.Pedido;
 import com.hkprogrammer.algafood.domain.models.Usuario;
 import com.hkprogrammer.algafood.domain.repository.PedidoRepository;
+import com.hkprogrammer.algafood.domain.repository.filter.PedidoFilter;
 import com.hkprogrammer.algafood.domain.service.EmissaoPedidoService;
+import com.hkprogrammer.algafood.infraestructure.repository.spec.PedidoSpecs;
 
 @RestController
 @RequestMapping(value = "/pedidos")
@@ -51,29 +53,23 @@ public class PedidoController {
 	@Autowired
 	private PedidoInputDisassembler pedidoInputDisassembler;
 
-//    @GetMapping
-//    public List<PedidoResumoModel> listar() {
-//        List<Pedido> todosPedidos = pedidoRepository.findAll();
-//        return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
-//    }
-
 	@GetMapping
-	public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
-		List<Pedido> pedidos = pedidoRepository.findAll();
-		List<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler.toCollectionModel(pedidos);
+	public MappingJacksonValue pesquisar(PedidoFilter filtro, @RequestParam(required = false) String campos) {
+	    List<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
+	    List<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
 
-		MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidosModel);
+	    MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidosModel);
 
-		SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-		filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
+	    SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+	    filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
 
-		if (StringUtils.isNotBlank(campos)) {
-			filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
-		}
+	    if (StringUtils.isNotBlank(campos)) {
+	        filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
+	    }
 
-		pedidosWrapper.setFilters(filterProvider);
+	    pedidosWrapper.setFilters(filterProvider);
 
-		return pedidosWrapper;
+	    return pedidosWrapper;
 	}
 
 	@GetMapping("/{codigoPedido}")
