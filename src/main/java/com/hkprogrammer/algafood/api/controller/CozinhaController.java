@@ -1,21 +1,5 @@
 package com.hkprogrammer.algafood.api.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hkprogrammer.algafood.api.assembler.CozinhaInputDisassembler;
 import com.hkprogrammer.algafood.api.assembler.CozinhaModelAssembler;
 import com.hkprogrammer.algafood.api.model.CozinhaModel;
@@ -23,6 +7,15 @@ import com.hkprogrammer.algafood.api.model.input.CozinhaInput;
 import com.hkprogrammer.algafood.domain.models.Cozinha;
 import com.hkprogrammer.algafood.domain.repository.CozinhaRepository;
 import com.hkprogrammer.algafood.domain.service.CadastroCozinhaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/cozinhas")
@@ -41,10 +34,14 @@ public class CozinhaController {
 	private CadastroCozinhaService cadastroCozinha;
 
 	@GetMapping
-	public List<CozinhaModel> listar() {
-		List<Cozinha> todasCozinhas = cozinhaRepository.findAll();
+	public Page<CozinhaModel> listar(Pageable pageable) {
+		Page<Cozinha> cozinhasPage = cozinhaRepository.findAll(pageable);
 
-		return cozinhaModelAssembler.toCollectionModel(todasCozinhas);
+		List<CozinhaModel> cozinhasModel = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
+
+		Page<CozinhaModel> cozinhasModelPage = new PageImpl<>(cozinhasModel, pageable, cozinhasPage.getTotalElements());
+
+		return cozinhasModelPage;
 	}
 
 	@GetMapping("/{cozinhaId}")
