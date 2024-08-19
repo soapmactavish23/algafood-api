@@ -13,17 +13,17 @@ import com.hkprogrammer.algafood.domain.models.Pedido;
 @Component
 public class PedidoResumoModelAssembler {
 
-    @Autowired
-    private ModelMapper modelMapper;
-    
-    public PedidoResumoModel toModel(Pedido pedido) {
-        return modelMapper.map(pedido, PedidoResumoModel.class);
-    }
-    
-    public List<PedidoResumoModel> toCollectionModel(List<Pedido> pedidos) {
-        return pedidos.stream()
-                .map(pedido -> toModel(pedido))
-                .collect(Collectors.toList());
-    }
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	public PedidoResumoModel toModel(Pedido pedido) {
+		return modelMapper.map(pedido, PedidoResumoModel.class);
+	}
+	
+	public List<PedidoResumoModel> toCollectionModel(List<Pedido> pedidos) {
+		return pedidos.stream()
+				.map(pedido -> toModel(pedido))
+				.collect(Collectors.toList());
+	}
     
 }

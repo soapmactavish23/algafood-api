@@ -9,12 +9,14 @@ import org.springframework.stereotype.Repository;
 
 import com.hkprogrammer.algafood.domain.models.Pedido;
 
+
 @Repository
-public interface PedidoRepository extends CustomJpaRepository<Pedido, Long>, JpaSpecificationExecutor<Pedido> {
+public interface PedidoRepository extends CustomJpaRepository<Pedido, Long>,
+		JpaSpecificationExecutor<Pedido> {
 
 	Optional<Pedido> findByCodigo(String codigo);
-	
-	@Query("from Pedido p join fetch p.cliente join fetch p.restaurante")
-	public List<Pedido> findAll();
+
+	@Query("from Pedido p join fetch p.cliente join fetch p.restaurante r join fetch r.cozinha")
+	List<Pedido> findAll();
 	
 }
