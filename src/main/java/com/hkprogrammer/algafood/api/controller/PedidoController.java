@@ -31,7 +31,7 @@ import com.hkprogrammer.algafood.domain.exception.NegocioException;
 import com.hkprogrammer.algafood.domain.models.Pedido;
 import com.hkprogrammer.algafood.domain.models.Usuario;
 import com.hkprogrammer.algafood.domain.repository.PedidoRepository;
-import com.hkprogrammer.algafood.domain.repository.filter.PedidoFilter;
+import com.hkprogrammer.algafood.domain.filter.PedidoFilter;
 import com.hkprogrammer.algafood.domain.service.EmissaoPedidoService;
 import com.hkprogrammer.algafood.infraestructure.repository.spec.PedidoSpecs;
 
