@@ -1,4 +1,4 @@
-package com.hkprogrammer.algafood.infraestructure.service;
+package com.hkprogrammer.algafood.infraestructure.service.query;
 
 import com.hkprogrammer.algafood.domain.filter.VendaDiariaFilter;
 import com.hkprogrammer.algafood.domain.models.Pedido;
@@ -6,12 +6,10 @@ import com.hkprogrammer.algafood.domain.models.StatusPedido;
 import com.hkprogrammer.algafood.domain.models.dto.VendaDiaria;
 import com.hkprogrammer.algafood.domain.service.VendaQueryService;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
