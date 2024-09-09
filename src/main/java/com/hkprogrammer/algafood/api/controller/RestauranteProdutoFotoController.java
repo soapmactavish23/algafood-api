@@ -1,36 +1,53 @@
 package com.hkprogrammer.algafood.api.controller;
 
-import com.hkprogrammer.algafood.api.model.input.FotoProdutoInput;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.UUID;
+import com.hkprogrammer.algafood.api.assembler.FotoProdutoModelAssembler;
+import com.hkprogrammer.algafood.api.model.FotoProdutoModel;
+import com.hkprogrammer.algafood.api.model.input.FotoProdutoInput;
+import com.hkprogrammer.algafood.domain.models.FotoProduto;
+import com.hkprogrammer.algafood.domain.models.Produto;
+import com.hkprogrammer.algafood.domain.service.CadastroProdutoService;
+import com.hkprogrammer.algafood.domain.service.CatalogoFotoProdutoService;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
 public class RestauranteProdutoFotoController {
+	
+	@Autowired
+	private CadastroProdutoService cadastroProduto;
+	
+	@Autowired
+	private CatalogoFotoProdutoService catalogoFotoProduto;
+	
+	@Autowired
+	private FotoProdutoModelAssembler fotoProdutoModelAssembler;
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput) {
+    public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput) {
 
-        var nomeArquivo = UUID.randomUUID().toString() + "_" + fotoProdutoInput.getArquivo().getOriginalFilename();
-
-        var arquivoFoto = Path.of("D:/upload/algafood/catalogo", nomeArquivo);
-
-
-        System.out.println(arquivoFoto);
-        System.out.println(fotoProdutoInput.getArquivo().getContentType());
-
-        try {
-            fotoProdutoInput.getArquivo().transferTo(arquivoFoto);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+       Produto produto = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
+       
+       MultipartFile arquivo = fotoProdutoInput.getArquivo();
+       
+       FotoProduto foto = new FotoProduto();
+       foto.setProduto(produto);
+       foto.setDescricao(fotoProdutoInput.getDescricao());
+       foto.setContentType(arquivo.getContentType());
+       foto.setTamanho(arquivo.getSize());
+       foto.setNomeArquivo(arquivo.getOriginalFilename());
+       
+       FotoProduto fotoSalva = catalogoFotoProduto.salvar(foto);
+       
+       return fotoProdutoModelAssembler.toModel(fotoSalva);
 
     }
 

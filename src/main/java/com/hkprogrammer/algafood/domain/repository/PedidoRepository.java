@@ -3,8 +3,6 @@ package com.hkprogrammer.algafood.domain.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.hkprogrammer.algafood.domain.filter.VendaDiariaFilter;
-import com.hkprogrammer.algafood.domain.models.dto.VendaDiaria;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

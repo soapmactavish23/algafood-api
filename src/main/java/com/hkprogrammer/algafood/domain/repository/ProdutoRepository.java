@@ -12,7 +12,7 @@ import com.hkprogrammer.algafood.domain.models.Produto;
 import com.hkprogrammer.algafood.domain.models.Restaurante;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+public interface ProdutoRepository extends JpaRepository<Produto, Long>, ProdutoRepositoryQueries {
 
 	@Query("from Produto where restaurante.id = :restaurante and id = :produto")
 	Optional<Produto> findById(@Param("restaurante") Long restauranteId, @Param("produto") Long produtoId);
