@@ -1,11 +1,7 @@
 package com.hkprogrammer.algafood.api.controller;
 
-import com.hkprogrammer.algafood.domain.filter.VendaDiariaFilter;
-import com.hkprogrammer.algafood.domain.models.dto.VendaDiaria;
-import com.hkprogrammer.algafood.domain.service.VendaReportService;
-import com.hkprogrammer.algafood.infraestructure.service.query.VendaQueryServiceImpl;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.hkprogrammer.algafood.domain.filter.VendaDiariaFilter;
+import com.hkprogrammer.algafood.domain.models.dto.VendaDiaria;
+import com.hkprogrammer.algafood.domain.service.VendaReportService;
+import com.hkprogrammer.algafood.infraestructure.service.query.VendaQueryServiceImpl;
+
+import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
