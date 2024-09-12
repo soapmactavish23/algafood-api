@@ -1,18 +1,20 @@
 package com.hkprogrammer.algafood.infraestructure.service.query;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.Predicate;
+
+import org.springframework.stereotype.Repository;
+
 import com.hkprogrammer.algafood.domain.filter.VendaDiariaFilter;
 import com.hkprogrammer.algafood.domain.models.Pedido;
 import com.hkprogrammer.algafood.domain.models.StatusPedido;
 import com.hkprogrammer.algafood.domain.models.dto.VendaDiaria;
 import com.hkprogrammer.algafood.domain.service.VendaQueryService;
-import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Repository
 public class VendaQueryServiceImpl implements VendaQueryService {
@@ -27,7 +29,8 @@ public class VendaQueryServiceImpl implements VendaQueryService {
         var root = query.from(Pedido.class);
         var predicates = new ArrayList<Predicate>();
 
-        var functionConvertTzDataCriacao = builder.function(
+        @SuppressWarnings("unused")
+		var functionConvertTzDataCriacao = builder.function(
                 "convert_tz", Date.class, root.get("dataCriacao"), builder.literal("+00:00"), builder.literal(timeOffset));
 
         var functionDateDataCriacao = builder.function(

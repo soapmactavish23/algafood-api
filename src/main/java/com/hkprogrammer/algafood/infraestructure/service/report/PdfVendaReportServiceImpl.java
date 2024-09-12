@@ -1,22 +1,15 @@
 package com.hkprogrammer.algafood.infraestructure.service.report;
 
-import com.hkprogrammer.algafood.domain.filter.VendaDiariaFilter;
-import com.hkprogrammer.algafood.domain.service.VendaQueryService;
-import com.hkprogrammer.algafood.domain.service.VendaReportService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-//import net.sf.jasperreports.engine.*;
-//import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
-import java.util.HashMap;
-import java.util.Locale;
+import com.hkprogrammer.algafood.domain.filter.VendaDiariaFilter;
+import com.hkprogrammer.algafood.domain.service.VendaReportService;
 
 @Service
 public class PdfVendaReportServiceImpl implements VendaReportService {
 
-    @Autowired
-    private VendaQueryService vendaQueryService;
+//    @Autowired	
+//    private VendaQueryService vendaQueryService;
 
     @Override
     public byte[] emitirVendasDiarias(VendaDiariaFilter filtro, String timeOffset) {
