@@ -15,17 +15,12 @@ import com.hkprogrammer.algafood.domain.service.FotoStorageService.NovaFoto;
 
 @Service
 public class CatalogoFotoProdutoService {
-	
+
 	@Autowired
 	private ProdutoRepository produtoRepository;
 	
 	@Autowired
 	private FotoStorageService fotoStorage;
-	
-	public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
-	    return produtoRepository.findFotoById(restauranteId, produtoId)
-	            .orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
-	}       
 	
 	@Transactional
 	public FotoProduto salvar(FotoProduto foto, InputStream dadosArquivo) {
@@ -34,40 +29,42 @@ public class CatalogoFotoProdutoService {
 		String nomeNovoArquivo = fotoStorage.gerarNomeArquivo(foto.getNomeArquivo());
 		String nomeArquivoExistente = null;
 		
-		Optional<FotoProduto> fotoExistente = produtoRepository.findFotoById(restauranteId, produtoId);
-	
+		Optional<FotoProduto> fotoExistente = produtoRepository
+				.findFotoById(restauranteId, produtoId);
 		
-		if(fotoExistente.isPresent()) {
+		if (fotoExistente.isPresent()) {
 			nomeArquivoExistente = fotoExistente.get().getNomeArquivo();
 			produtoRepository.delete(fotoExistente.get());
 		}
 		
 		foto.setNomeArquivo(nomeNovoArquivo);
-		foto = produtoRepository.save(foto);
+		foto =  produtoRepository.save(foto);
 		produtoRepository.flush();
 		
 		NovaFoto novaFoto = NovaFoto.builder()
-				.nomeArquivo(foto.getNomeArquivo())
+				.nomeAquivo(foto.getNomeArquivo())
+				.contentType(foto.getContentType())
 				.inputStream(dadosArquivo)
 				.build();
-		
-		if(nomeArquivoExistente != null) {
-			fotoStorage.remover(nomeArquivoExistente);	
-		}
-		
+
 		fotoStorage.substituir(nomeArquivoExistente, novaFoto);
 		
-		return foto; 
+		return foto;
 	}
-	
+
+	public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+		return produtoRepository.findFotoById(restauranteId, produtoId)
+				.orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
+	}
+
 	@Transactional
 	public void excluir(Long restauranteId, Long produtoId) {
-	    FotoProduto foto = buscarOuFalhar(restauranteId, produtoId);
-	    
-	    produtoRepository.delete(foto);
-	    produtoRepository.flush();
+		FotoProduto foto = buscarOuFalhar(restauranteId, produtoId);
+		
+		produtoRepository.delete(foto);
+		produtoRepository.flush();
 
-	    fotoStorage.remover(foto.getNomeArquivo());
+		fotoStorage.remover(foto.getNomeArquivo());
 	}
 	
 }

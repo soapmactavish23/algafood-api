@@ -6,13 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import com.hkprogrammer.algafood.core.storage.StorageProperties;
 import com.hkprogrammer.algafood.domain.service.FotoStorageService;
 
-@Service
 public class LocalFotoStorageService implements FotoStorageService {
 
 	@Autowired
@@ -21,7 +19,7 @@ public class LocalFotoStorageService implements FotoStorageService {
 	@Override
 	public void armazenar(NovaFoto novaFoto) {
 		try {
-			Path arquivoPath = getArquivoPath(novaFoto.getNomeArquivo());
+			Path arquivoPath = getArquivoPath(novaFoto.getNomeAquivo());
 
 			FileCopyUtils.copy(novaFoto.getInputStream(), Files.newOutputStream(arquivoPath));
 		} catch (Exception e) {
