@@ -3,6 +3,8 @@ package com.hkprogrammer.algafood.core.storage;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.regions.Regions;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +20,7 @@ public class StorageProperties {
 	@Getter
 	@Setter
 	public class Local {
-		
 		private String diretorioFoto;
-		
 	}
 	
 	@Getter
@@ -29,7 +29,7 @@ public class StorageProperties {
 		private String idChaveAcesso;
 		private String chaveAcessoSecreta;
 		private String bucket;
-		private String regiao;
+		private Regions regiao;
 		private String diretorioFotos;
 	}
 	
