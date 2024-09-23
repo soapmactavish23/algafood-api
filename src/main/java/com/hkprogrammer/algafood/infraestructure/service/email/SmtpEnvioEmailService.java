@@ -1,7 +1,8 @@
 package com.hkprogrammer.algafood.infraestructure.service.email;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.hkprogrammer.algafood.core.email.EmailProperties;
 import com.hkprogrammer.algafood.domain.service.EnvioEmailService;
 
-import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class SmtpEnvioEmailService implements EnvioEmailService {
