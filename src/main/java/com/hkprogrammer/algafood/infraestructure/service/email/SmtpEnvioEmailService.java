@@ -1,5 +1,6 @@
 package com.hkprogrammer.algafood.infraestructure.service.email;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +26,14 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 	private Configuration freemarkerConfig;
 	
 	@Override
-	public void enviar(Mensagem message) {
-		try {
-			String corpo = processarTemplate(message);
-			
-			MimeMessage mimeMessage = mailSander.createMimeMessage();
-			
-			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-			helper.setFrom(emailProperties.getRemetente());
-			helper.setSubject(message.getAssunto());
-			helper.setTo(message.getDestinatarios().toArray(new String[0]));
-			helper.setSubject(message.getAssunto());
-			helper.setText(corpo, true);
-			
-			mailSander.send(mimeMessage);
-		} catch (Exception e) {
-			throw new EmailException("Não foi possível enviar e-mail", e);
-		}
+	public void enviar(Mensagem mensagem) {
+	    try {
+	        MimeMessage mimeMessage = criarMimeMessage(mensagem);
+	        
+	        mailSander.send(mimeMessage);
+	    } catch (Exception e) {
+	        throw new EmailException("Não foi possível enviar e-mail", e);
+	    }
 	}
 	
 	protected String processarTemplate(Mensagem mensagem) {
@@ -52,6 +44,20 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
 		} catch (Exception e) {
 			throw new EmailException("Não foi possível montar o template do e-mail", e);
 		}
+	}
+	
+	protected MimeMessage criarMimeMessage(Mensagem mensagem) throws MessagingException {
+	    String corpo = processarTemplate(mensagem);
+	    
+	    MimeMessage mimeMessage = mailSander.createMimeMessage();
+	    
+	    MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+	    helper.setFrom(emailProperties.getRemetente());
+	    helper.setTo(mensagem.getDestinatarios().toArray(new String[0]));
+	    helper.setSubject(mensagem.getAssunto());
+	    helper.setText(corpo, true);
+	    
+	    return mimeMessage;
 	}
 	
 }
