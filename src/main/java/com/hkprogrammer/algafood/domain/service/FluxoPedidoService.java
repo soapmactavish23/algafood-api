@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.hkprogrammer.algafood.domain.models.Pedido;
 import com.hkprogrammer.algafood.domain.repository.PedidoRepository;
-import com.hkprogrammer.algafood.domain.service.EnvioEmailService.Mensagem;
 
 @Service
 public class FluxoPedidoService {
@@ -22,6 +21,8 @@ public class FluxoPedidoService {
 	public void confirmar(String codigo) {
 		Pedido pedido = emissaoPedido.buscarOuFalhar(codigo);
 		pedido.confirmar();		
+		
+		pedidoRepository.save(pedido);
 	}
 	
 	@Transactional
