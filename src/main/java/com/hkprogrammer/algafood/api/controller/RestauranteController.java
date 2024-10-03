@@ -31,7 +31,6 @@ import com.hkprogrammer.algafood.domain.models.Restaurante;
 import com.hkprogrammer.algafood.domain.repository.RestauranteRepository;
 import com.hkprogrammer.algafood.domain.service.CadastroRestauranteService;
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/restaurantes")
 public class RestauranteController {
