@@ -1,9 +1,13 @@
 package com.hkprogrammer.algafood.api.controller;
 
+import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.hkprogrammer.algafood.api.ResourceUriHelper;
+import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +29,10 @@ import com.hkprogrammer.algafood.domain.exception.NegocioException;
 import com.hkprogrammer.algafood.domain.models.Cidade;
 import com.hkprogrammer.algafood.domain.repository.CidadeRepository;
 import com.hkprogrammer.algafood.domain.service.CadastroCidadeService;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "/cidades")
@@ -64,7 +72,11 @@ public class CidadeController {
 
             cidade = cadastroCidade.salvar(cidade);
 
-            return cidadeModelAssembler.toModel(cidade);
+            CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+
+            ResourceUriHelper.addUriInResponseHeader(cidadeModel.getId());
+
+            return cidadeModel;
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
