@@ -131,11 +131,11 @@
 			<version>1.5.13</version> <!-- verifique a versão mais recente -->
 		</dependency>
 
-        <dependência>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>inicializador-de-bota-de-mola-hateoas</artifactId>
-            <versão>3.3.5</versão>
-        </dependência>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+            <version>3.3.5</version>
+        </dependency>
 	</dependencies>
 
 	<build>
