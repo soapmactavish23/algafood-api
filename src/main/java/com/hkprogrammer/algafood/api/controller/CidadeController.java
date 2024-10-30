@@ -11,6 +11,7 @@ import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,12 +65,15 @@ public class CidadeController {
 
         CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
 
-        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades/1"));
-        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades", "cidades"));
+        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withSelfRel());
+        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withRel("cidade"));
+
+//        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades/1"));
+//        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades", "cidades"));
 //        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades/1", IanaLinkRelations.SELF));
 //        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades", IanaLinkRelations.COLLECTION));
 
-        cidadeModel.getEstado().add(new Link("http://api.algafood.local:8080/estados/1"));
+//        cidadeModel.getEstado().add(new Link("http://api.algafood.local:8080/estados/1"));
 
         return cidadeModel;
     }
