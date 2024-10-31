@@ -10,6 +10,7 @@ import com.hkprogrammer.algafood.api.ResourceUriHelper;
 import com.hkprogrammer.algafood.api.model.EstadoModel;
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -55,9 +56,14 @@ public class CidadeController {
     private CidadeInputDisassembler cidadeInputDisassembler;
 
     @GetMapping
-    public List<CidadeModel> listar() {
+    public CollectionModel<CidadeModel> listar() {
         List<Cidade> todasCidades = cidadeRepository.findAll();
-        return cidadeModelAssembler.toCollectionModel(todasCidades);
+        List<CidadeModel> cidadeModels = cidadeModelAssembler.toCollectionModel(todasCidades);
+        CollectionModel<CidadeModel> cidadesModelCollectionModel = new CollectionModel<>(cidadeModels);
+
+        cidadesModelCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+
+        return cidadesModelCollectionModel;
     }
 
     @GetMapping("/{cidadeId}")
