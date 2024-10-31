@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.hkprogrammer.algafood.api.ResourceUriHelper;
+import com.hkprogrammer.algafood.api.model.EstadoModel;
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -65,8 +66,10 @@ public class CidadeController {
 
         CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
 
-        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withSelfRel());
-        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withRel("cidade"));
+        cidadeModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
+                .listar()).withSelfRel());
+//        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withSelfRel());
+//        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withRel("cidade"));
 
 //        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades/1"));
 //        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades", "cidades"));
@@ -74,6 +77,8 @@ public class CidadeController {
 //        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades", IanaLinkRelations.COLLECTION));
 
 //        cidadeModel.getEstado().add(new Link("http://api.algafood.local:8080/estados/1"));
+        cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
+                .buscar(cidadeModel.getEstado().getId())).withSelfRel());
 
         return cidadeModel;
     }
