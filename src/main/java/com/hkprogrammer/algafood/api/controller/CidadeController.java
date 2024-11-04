@@ -58,35 +58,13 @@ public class CidadeController {
     @GetMapping
     public CollectionModel<CidadeModel> listar() {
         List<Cidade> todasCidades = cidadeRepository.findAll();
-        List<CidadeModel> cidadeModels = cidadeModelAssembler.toCollectionModel(todasCidades);
-        CollectionModel<CidadeModel> cidadesModelCollectionModel = new CollectionModel<>(cidadeModels);
-
-        cidadesModelCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
-
-        return cidadesModelCollectionModel;
+        return cidadeModelAssembler.toCollectionModel(todasCidades);
     }
 
     @GetMapping("/{cidadeId}")
     public CidadeModel buscar(@PathVariable Long cidadeId) {
         Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
-
-        CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
-
-        cidadeModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-                .listar()).withSelfRel());
-//        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withSelfRel());
-//        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).slash(cidadeModel.getId()).withRel("cidade"));
-
-//        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades/1"));
-//        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades", "cidades"));
-//        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades/1", IanaLinkRelations.SELF));
-//        cidadeModel.add(new Link("http://api.algafood.local:8080/cidades", IanaLinkRelations.COLLECTION));
-
-//        cidadeModel.getEstado().add(new Link("http://api.algafood.local:8080/estados/1"));
-        cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
-                .buscar(cidadeModel.getEstado().getId())).withSelfRel());
-
-        return cidadeModel;
+        return cidadeModelAssembler.toModel(cidade);
     }
 
     @PostMapping
