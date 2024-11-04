@@ -7,10 +7,13 @@ import com.hkprogrammer.algafood.domain.models.Grupo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 @Setter
 @Getter
-public class UsuarioModel {
+@Relation(collectionRelation = "usuarios")
+public class UsuarioModel extends RepresentationModel<UsuarioModel> {
 
     private Long id;
     private String nome;
