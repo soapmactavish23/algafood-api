@@ -3,26 +3,36 @@ package com.hkprogrammer.algafood.api.assembler;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.hkprogrammer.algafood.api.controller.CozinhaController;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.hkprogrammer.algafood.api.model.CozinhaModel;
 import com.hkprogrammer.algafood.domain.models.Cozinha;
 
 @Component
-public class CozinhaModelAssembler {
+public class CozinhaModelAssembler
+        extends RepresentationModelAssemblerSupport<Cozinha, CozinhaModel> {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public CozinhaModel toModel(Cozinha cozinha) {
-        return modelMapper.map(cozinha, CozinhaModel.class);
+    public CozinhaModelAssembler() {
+        super(CozinhaController.class, CozinhaModel.class);
     }
 
-    public List<CozinhaModel> toCollectionModel(List<Cozinha> cozinhas) {
-        return cozinhas.stream()
-                .map(cozinha -> toModel(cozinha))
-                .collect(Collectors.toList());
+    @Override
+    public CozinhaModel toModel(Cozinha cozinha) {
+        CozinhaModel cozinhaModel = createModelWithId(cozinha.getId(), cozinha);
+        modelMapper.map(cozinha, cozinhaModel);
+
+        cozinhaModel.add(WebMvcLinkBuilder.linkTo(CozinhaModel.class).withRel("cozinhas"));
+
+        return cozinhaModel;
     }
+
+
 }
