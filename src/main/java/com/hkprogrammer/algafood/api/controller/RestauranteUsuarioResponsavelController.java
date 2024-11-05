@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,12 @@ public class RestauranteUsuarioResponsavelController {
     public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
         
-        return usuarioModelAssembler.toCollectionModel(restaurante.getResponsaveis());
+        return usuarioModelAssembler.toCollectionModel(restaurante.getResponsaveis())
+                .removeLinks()
+                .add(WebMvcLinkBuilder
+                        .linkTo(WebMvcLinkBuilder
+                        .methodOn(RestauranteUsuarioResponsavelController.class)
+                        .listar(restauranteId)).withSelfRel());
     }
     
     @DeleteMapping("/{usuarioId}")
