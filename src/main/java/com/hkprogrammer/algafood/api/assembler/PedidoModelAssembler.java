@@ -32,14 +32,22 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
         PedidoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
         modelMapper.map(pedido, pedidoModel);
 
-        TemplateVariables pageVariable = new TemplateVariables(
+        TemplateVariables pageVariables = new TemplateVariables(
                 new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
                 new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM));
 
+        TemplateVariables filtroVariables = new TemplateVariables(
+                new TemplateVariable("clienteId", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("restauranteId", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("dataCriacaoInicio", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("dataCriacaoFim", TemplateVariable.VariableType.REQUEST_PARAM));
+
         String pedidosUrl = WebMvcLinkBuilder.linkTo(PedidoController.class).toUri().toString();
 
-        pedidoModel.add(new Link(UriTemplate.of(pedidosUrl, pageVariable), "pedidos"));
+        pedidoModel.add(new Link(UriTemplate.of(pedidosUrl,
+                pageVariables.concat(filtroVariables)), "pedidos"));
+
 
         //pedidoModel.add(WebMvcLinkBuilder.linkTo(PedidoController.class).withRel("pedidos"));
 
