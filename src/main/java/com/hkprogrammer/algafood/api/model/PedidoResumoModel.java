@@ -5,10 +5,13 @@ import java.time.OffsetDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 @Setter
 @Getter
-public class PedidoResumoModel {
+@Relation(collectionRelation = "pedidos")
+public class PedidoResumoModel extends RepresentationModel<PedidoResumoModel> {
 	
     private String codigo;
     private BigDecimal subtotal;
@@ -17,7 +20,7 @@ public class PedidoResumoModel {
     private String status;
     private OffsetDateTime dataCriacao;
     private RestauranteResumoModel restaurante;
-    //private UsuarioModel cliente;
+    private UsuarioModel cliente;
     private String nomeCliente;
     private EnderecoModel enderecoEntrega;
     

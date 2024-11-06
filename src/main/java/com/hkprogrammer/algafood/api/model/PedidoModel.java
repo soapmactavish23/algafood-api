@@ -6,10 +6,13 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 @Setter
 @Getter
-public class PedidoModel {
+@Relation(collectionRelation = "pedidos")
+public class PedidoModel extends RepresentationModel<PedidoModel> {
     private String codigo;
     private BigDecimal subtotal;
     private BigDecimal taxaFrete;
