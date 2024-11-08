@@ -2,6 +2,7 @@ package com.hkprogrammer.algafood.api.controller;
 
 import java.util.List;
 
+import com.hkprogrammer.algafood.api.AlgaLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -28,17 +29,17 @@ public class RestauranteUsuarioResponsavelController {
     
     @Autowired
     private UsuarioModelAssembler usuarioModelAssembler;
-    
+
+    @Autowired
+    private AlgaLink algaLinks;
+
     @GetMapping
     public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
-        
+
         return usuarioModelAssembler.toCollectionModel(restaurante.getResponsaveis())
                 .removeLinks()
-                .add(WebMvcLinkBuilder
-                        .linkTo(WebMvcLinkBuilder
-                        .methodOn(RestauranteUsuarioResponsavelController.class)
-                        .listar(restauranteId)).withSelfRel());
+                .add(algaLinks.linkToResponsaveisRestaurante(restauranteId));
     }
     
     @DeleteMapping("/{usuarioId}")

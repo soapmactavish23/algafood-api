@@ -3,6 +3,7 @@ package com.hkprogrammer.algafood.api.assembler;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.hkprogrammer.algafood.api.AlgaLink;
 import com.hkprogrammer.algafood.api.controller.CozinhaController;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class CozinhaModelAssembler
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLink algaLinks;
+
     public CozinhaModelAssembler() {
         super(CozinhaController.class, CozinhaModel.class);
     }
@@ -29,7 +33,7 @@ public class CozinhaModelAssembler
         CozinhaModel cozinhaModel = createModelWithId(cozinha.getId(), cozinha);
         modelMapper.map(cozinha, cozinhaModel);
 
-        cozinhaModel.add(WebMvcLinkBuilder.linkTo(CozinhaModel.class).withRel("cozinhas"));
+        cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
 
         return cozinhaModel;
     }

@@ -14,7 +14,6 @@ import com.hkprogrammer.algafood.domain.models.Restaurante;
 public class RestauranteModelAssembler {
 
 	@Autowired
-
 	private ModelMapper modelMapper;
 
 	public RestauranteModel toModel(Restaurante restaurante) {

@@ -3,6 +3,7 @@ package com.hkprogrammer.algafood.api.assembler;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.hkprogrammer.algafood.api.AlgaLink;
 import com.hkprogrammer.algafood.api.controller.PedidoController;
 import com.hkprogrammer.algafood.api.controller.RestauranteController;
 import com.hkprogrammer.algafood.api.controller.UsuarioController;
@@ -21,6 +22,9 @@ public class PedidoResumoModelAssembler extends RepresentationModelAssemblerSupp
 	@Autowired
 	private ModelMapper modelMapper;
 
+	@Autowired
+	private AlgaLink algaLinks;
+
 	public PedidoResumoModelAssembler() {
 		super(PedidoController.class, PedidoResumoModel.class);
 	}
@@ -30,13 +34,12 @@ public class PedidoResumoModelAssembler extends RepresentationModelAssemblerSupp
 		PedidoResumoModel pedidoModel = createModelWithId(pedido.getCodigo(), pedido);
 		modelMapper.map(pedido, pedidoModel);
 
-		pedidoModel.add(WebMvcLinkBuilder.linkTo(PedidoController.class).withRel("pedidos"));
+		pedidoModel.add(algaLinks.linkToPedido());
 
-		pedidoModel.getRestaurante().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteController.class)
-				.buscar(pedido.getRestaurante().getId())).withSelfRel());
+		pedidoModel.getRestaurante().add(
+				algaLinks.linkToRestaurante(pedido.getRestaurante().getId()));
 
-		pedidoModel.getCliente().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class)
-				.buscar(pedido.getCliente().getId())).withSelfRel());
+		pedidoModel.getCliente().add(algaLinks.linkToUsuario(pedido.getCliente().getId()));
 
 		return pedidoModel;
 	}
