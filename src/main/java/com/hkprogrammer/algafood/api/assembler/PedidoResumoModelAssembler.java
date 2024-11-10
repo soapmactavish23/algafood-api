@@ -41,6 +41,8 @@ public class PedidoResumoModelAssembler extends RepresentationModelAssemblerSupp
 
 		pedidoModel.getCliente().add(algaLinks.linkToUsuario(pedido.getCliente().getId()));
 
+		pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
+
 		return pedidoModel;
 	}
     

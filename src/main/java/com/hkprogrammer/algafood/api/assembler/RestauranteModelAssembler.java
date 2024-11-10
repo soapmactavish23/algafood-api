@@ -67,6 +67,8 @@ public class RestauranteModelAssembler
 					algaLinks.linkToRestauranteFechamento(restaurante.getId(), "fechar"));
 		}
 
+		restauranteModel.add(algaLinks.linkToRestaurantes("restaurantes"));
+
 		return restauranteModel;
 	}
 
