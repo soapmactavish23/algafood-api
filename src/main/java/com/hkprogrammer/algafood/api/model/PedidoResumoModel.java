@@ -19,9 +19,9 @@ public class PedidoResumoModel extends RepresentationModel<PedidoResumoModel> {
     private BigDecimal valorTotal;
     private String status;
     private OffsetDateTime dataCriacao;
-    private RestauranteResumoModel restaurante;
     private UsuarioModel cliente;
     private String nomeCliente;
     private EnderecoModel enderecoEntrega;
+    private RestauranteApenasNomeModel restaurante;
     
 }

@@ -12,5 +12,7 @@ public class PermissaoModel {
     private String nome;
     
     private String descricao;
+
+    private RestauranteApenasNomeModel restaurante;
     
 }

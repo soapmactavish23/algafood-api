@@ -7,10 +7,13 @@ import com.hkprogrammer.algafood.api.model.view.RestauranteView;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 @Getter
 @Setter
-public class RestauranteModel {
+@Relation(collectionRelation = "restaurantes")
+public class RestauranteModel extends RepresentationModel<RestauranteModel> {
 	
 	@JsonView({RestauranteView.Resumo.class, RestauranteView.ApenasNome.class})
 	private Long id;

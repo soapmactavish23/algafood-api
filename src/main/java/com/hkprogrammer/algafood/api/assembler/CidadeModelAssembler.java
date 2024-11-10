@@ -45,6 +45,7 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
 
     @Override
     public CollectionModel<CidadeModel> toCollectionModel(Iterable<? extends Cidade> entities) {
-        return super.toCollectionModel(entities).add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+        return super.toCollectionModel(entities)
+                .add(algaLinks.linkToCidades());
     }
 }

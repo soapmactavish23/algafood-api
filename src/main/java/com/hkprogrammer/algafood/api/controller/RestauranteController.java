@@ -4,8 +4,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.hkprogrammer.algafood.api.assembler.RestauranteApenasNomeModelAssembler;
+import com.hkprogrammer.algafood.api.assembler.RestauranteBasicoModelAssembler;
+import com.hkprogrammer.algafood.api.model.RestauranteApenasNomeModel;
+import com.hkprogrammer.algafood.api.model.RestauranteBasicoModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,43 +51,25 @@ public class RestauranteController {
 
 	@Autowired
 	private RestauranteInputDisassembler restauranteInputDisassembler;
-	
+
+	@Autowired
+	private RestauranteBasicoModelAssembler restauranteBasicoModelAssembler;
+
+	@Autowired
+	private RestauranteApenasNomeModelAssembler restauranteApenasNomeModelAssembler;
+
 	@GetMapping
-	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
-		List<Restaurante> restaurantes = restauranteRepository.findAll();
-		
-		List<RestauranteModel> restauranteModel = restauranteModelAssembler.toCollectionModel(restaurantes);
-		
-		MappingJacksonValue restaurantesWrapper = new MappingJacksonValue(restauranteModel);
-		
-		restaurantesWrapper.setSerializationView(RestauranteView.Resumo.class);
-		
-		if("apenas-nome".equals(projecao)) {
-			restaurantesWrapper.setSerializationView(RestauranteView.ApenasNome.class);
-		} else if("completo".equals(projecao)) {
-			restaurantesWrapper.setSerializationView(null);
-		}
-		
-		return restaurantesWrapper;
+	public CollectionModel<RestauranteBasicoModel> listar() {
+		return restauranteBasicoModelAssembler
+				.toCollectionModel(restauranteRepository.findAll());
 	}
 
-//	@GetMapping
-//	public List<RestauranteModel> listarResumido() {
-//		return listar();
-//	}
-//	
-//	@GetMapping(params = "projecao=resumo")
-//	@JsonView(RestauranteView.Resumo.class)
-//	public List<RestauranteModel> listar() {
-//		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
-//	}
-//	
-//	@GetMapping(params = "projecao=apenas-nome")
-//	@JsonView(RestauranteView.ApenasNome.class)
-//	public List<RestauranteModel> listarApenasNomes() {
-//		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
-//	}
-	
+	@GetMapping(params = "projecao=apenas-nome")
+	public CollectionModel<RestauranteApenasNomeModel> listarApenasNomes() {
+		return restauranteApenasNomeModelAssembler
+				.toCollectionModel(restauranteRepository.findAll());
+	}
+
 	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
@@ -118,15 +106,19 @@ public class RestauranteController {
 	}
 
 	@PutMapping("/{restauranteId}/ativo")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void ativar(@PathVariable Long restauranteId) {
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<Void> ativar(@PathVariable Long restauranteId) {
 		cadastroRestaurante.ativar(restauranteId);
+
+		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{restauranteId}/ativo")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void inativar(@PathVariable Long restauranteId) {
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<Void> inativar(@PathVariable Long restauranteId) {
 		cadastroRestaurante.inativar(restauranteId);
+
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("/ativacoes")
@@ -140,17 +132,21 @@ public class RestauranteController {
 	public void desativarMultiplos(@RequestBody List<Long> restauranteIds) {
 		cadastroRestaurante.inativar(restauranteIds);
 	}
-	
+
 	@PutMapping("/{restauranteId}/abertura")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void abrir(@PathVariable Long restauranteId) {
-	    cadastroRestaurante.abrir(restauranteId);
+	public ResponseEntity<Void> abrir(@PathVariable Long restauranteId) {
+		cadastroRestaurante.abrir(restauranteId);
+
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/{restauranteId}/fechamento")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void fechar(@PathVariable Long restauranteId) {
-	    cadastroRestaurante.fechar(restauranteId);
+	public ResponseEntity<Void> fechar(@PathVariable Long restauranteId) {
+		cadastroRestaurante.fechar(restauranteId);
+
+		return ResponseEntity.noContent().build();
 	}
 
 }
