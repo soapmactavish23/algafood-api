@@ -2,6 +2,9 @@ package com.hkprogrammer.algafood.api.controller;
 
 import java.util.List;
 
+import com.hkprogrammer.algafood.api.AlgaLink;
+import com.hkprogrammer.algafood.api.model.EstatisticasModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +23,23 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/estatisticas")
-public class EstatiticasController {
+public class EstatisticasController {
 
     private final VendaQueryServiceImpl vendaQueryService;
 
     private final VendaReportService vendaReportService;
+
+    @Autowired
+    private AlgaLink algaLinks;
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public EstatisticasModel estatisticas() {
+        var estatisticasModel = new EstatisticasModel();
+
+        estatisticasModel.add(algaLinks.linkToEstatisticasVendasDiarias("vendas-diarias"));
+
+        return estatisticasModel;
+    }
 
     @GetMapping(value = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro,
