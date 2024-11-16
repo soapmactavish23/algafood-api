@@ -4,8 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.hkprogrammer.algafood.api.model.EnderecoModel;
-import com.hkprogrammer.algafood.api.model.input.ItemPedidoInput;
+import com.hkprogrammer.algafood.api.v1.model.EnderecoModel;
+import com.hkprogrammer.algafood.api.v1.model.input.ItemPedidoInput;
 import com.hkprogrammer.algafood.domain.models.Endereco;
 import com.hkprogrammer.algafood.domain.models.ItemPedido;
 
