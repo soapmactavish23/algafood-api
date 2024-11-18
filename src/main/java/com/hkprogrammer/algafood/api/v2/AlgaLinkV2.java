@@ -1,5 +1,6 @@
 package com.hkprogrammer.algafood.api.v2;
 
+import com.hkprogrammer.algafood.api.v1.controller.*;
 import com.hkprogrammer.algafood.api.v2.controller.CidadeControllerV2;
 import org.springframework.hateoas.*;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

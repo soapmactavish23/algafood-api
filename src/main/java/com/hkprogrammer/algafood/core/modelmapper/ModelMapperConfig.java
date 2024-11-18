@@ -1,5 +1,7 @@
 package com.hkprogrammer.algafood.core.modelmapper;
 
+import com.hkprogrammer.algafood.api.v2.model.input.CidadeInputV2;
+import com.hkprogrammer.algafood.domain.models.Cidade;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,9 @@ public class ModelMapperConfig {
 	@Bean
 	public ModelMapper modelMapper() {
 		var modelMapper = new ModelMapper();
+
+		modelMapper.createTypeMap(CidadeInputV2.class, Cidade.class)
+				.addMappings(mapper -> mapper.skip(Cidade::setId));
 
 		var enderecoToEnderecoModel = modelMapper.createTypeMap(Endereco.class, EnderecoModel.class);
 

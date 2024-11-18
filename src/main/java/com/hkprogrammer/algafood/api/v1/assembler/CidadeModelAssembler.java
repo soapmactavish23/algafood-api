@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.hkprogrammer.algafood.api.v1.model.CidadeModel;
 import com.hkprogrammer.algafood.domain.models.Cidade;
 
-@Component
+@Component("cidadeModelAssemblerV1")
 public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Cidade, CidadeModel> {
 
     @Autowired
