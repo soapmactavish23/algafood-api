@@ -9,10 +9,10 @@ import com.hkprogrammer.algafood.api.v2.assembler.CidadeInputDisassemblerV2;
 import com.hkprogrammer.algafood.api.v2.assembler.CidadeModelAssemblerV2;
 import com.hkprogrammer.algafood.api.v2.model.CidadeModelV2;
 import com.hkprogrammer.algafood.api.v2.model.input.CidadeInputV2;
-import com.hkprogrammer.algafood.core.web.AlgaMediaTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +30,7 @@ import com.hkprogrammer.algafood.domain.repository.CidadeRepository;
 import com.hkprogrammer.algafood.domain.service.CadastroCidadeService;
 
 @RestController
-@RequestMapping(value = "/cidades", produces = AlgaMediaTypes.V2_APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v2/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CidadeControllerV2 {
 
     @Autowired
