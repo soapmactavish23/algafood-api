@@ -27,7 +27,7 @@ import com.hkprogrammer.algafood.domain.repository.UsuarioRepository;
 import com.hkprogrammer.algafood.domain.service.CadastroUsuarioService;
 
 @RestController
-@RequestMapping(value = "/usuarios")
+@RequestMapping(value = "/v1/usuarios")
 public class UsuarioController {
 
     @Autowired

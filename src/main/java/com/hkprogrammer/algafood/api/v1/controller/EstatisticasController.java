@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/estatisticas")
+@RequestMapping(path = "/v1/estatisticas")
 public class EstatisticasController {
 
     private final VendaQueryServiceImpl vendaQueryService;

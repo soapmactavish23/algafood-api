@@ -29,7 +29,7 @@ import com.hkprogrammer.algafood.domain.service.CadastroProdutoService;
 import com.hkprogrammer.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos")
+@RequestMapping("/v1/restaurantes/{restauranteId}/produtos")
 public class RestauranteProdutoController {
 
 	@Autowired

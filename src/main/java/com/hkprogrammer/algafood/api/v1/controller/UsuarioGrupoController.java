@@ -19,7 +19,7 @@ import com.hkprogrammer.algafood.domain.models.Usuario;
 import com.hkprogrammer.algafood.domain.service.CadastroUsuarioService;
 
 @RestController
-@RequestMapping(value = "/usuarios/{usuarioId}/grupos")
+@RequestMapping(value = "/v1/usuarios/{usuarioId}/grupos")
 public class UsuarioGrupoController {
 
     @Autowired

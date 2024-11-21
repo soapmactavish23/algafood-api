@@ -19,7 +19,7 @@ import com.hkprogrammer.algafood.domain.models.Grupo;
 import com.hkprogrammer.algafood.domain.service.CadastroGrupoService;
 
 @RestController
-@RequestMapping(value = "/grupos/{grupoId}/permissoes")
+@RequestMapping(value = "/v1/grupos/{grupoId}/permissoes")
 public class GrupoPermissaoController {
 
 	@Autowired

@@ -19,7 +19,7 @@ import com.hkprogrammer.algafood.domain.models.Restaurante;
 import com.hkprogrammer.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
-@RequestMapping(value = "/restaurantes/{restauranteId}/responsaveis")
+@RequestMapping(value = "/v1/restaurantes/{restauranteId}/responsaveis")
 public class RestauranteUsuarioResponsavelController {
 
     @Autowired

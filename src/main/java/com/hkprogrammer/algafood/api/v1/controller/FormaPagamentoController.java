@@ -32,7 +32,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 @RestController
-@RequestMapping("/formas-pagamento")
+@RequestMapping("/v1/formas-pagamento")
 public class FormaPagamentoController {
 
     @Autowired

@@ -26,7 +26,7 @@ import com.hkprogrammer.algafood.domain.service.CadastroGrupoService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/grupos")
+@RequestMapping("/v1/grupos")
 public class GrupoController {
 
     @Autowired

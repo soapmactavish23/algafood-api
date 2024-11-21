@@ -26,7 +26,7 @@ import com.hkprogrammer.algafood.domain.repository.EstadoRepository;
 import com.hkprogrammer.algafood.domain.service.CadastroEstadoService;
 
 @RestController
-@RequestMapping("/estados")
+@RequestMapping("/v1/estados")
 public class EstadoController {
 
 	@Autowired

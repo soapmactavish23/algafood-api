@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hkprogrammer.algafood.domain.service.FluxoPedidoService;
 
 @RestController
-@RequestMapping(value = "/pedidos/{pedidoId}")
+@RequestMapping(value = "/v1/pedidos/{pedidoId}")
 public class FluxoPedidoController {
 
 	@Autowired

@@ -38,7 +38,7 @@ import com.hkprogrammer.algafood.infraestructure.repository.spec.PedidoSpecs;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = "/pedidos")
+@RequestMapping(value = "/v1/pedidos")
 @Slf4j
 public class PedidoController {
 
