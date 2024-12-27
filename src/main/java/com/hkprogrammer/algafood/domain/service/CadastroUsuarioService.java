@@ -1,16 +1,16 @@
 package com.hkprogrammer.algafood.domain.service;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.hkprogrammer.algafood.domain.exception.NegocioException;
 import com.hkprogrammer.algafood.domain.exception.UsuarioNaoEncontradoException;
 import com.hkprogrammer.algafood.domain.models.Grupo;
 import com.hkprogrammer.algafood.domain.models.Usuario;
 import com.hkprogrammer.algafood.domain.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class CadastroUsuarioService {
@@ -20,6 +20,9 @@ public class CadastroUsuarioService {
     
     @Autowired
     private CadastroGrupoService cadastroGrupo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public Usuario salvar(Usuario usuario) {
@@ -32,7 +35,11 @@ public class CadastroUsuarioService {
     		String message = "Já existe um usuário cadastrado com o e-mail %s";
     		throw new NegocioException(String.format(message, usuario.getEmail()));
     	}
-    	
+
+        if (usuario.isNovo()) {
+            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        }
+
     	return usuarioRepository.save(usuario);
     }
 
@@ -40,11 +47,11 @@ public class CadastroUsuarioService {
     public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha) {
         Usuario usuario = buscarOuFalhar(usuarioId);
 
-        if (usuario.senhaNaoCoincideCom(senhaAtual)) {
+        if (!passwordEncoder.matches(senhaAtual, usuario.getSenha())) {
             throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
         }
 
-        usuario.setSenha(novaSenha);
+        usuario.setSenha(passwordEncoder.encode(novaSenha));
     }
 
     public Usuario buscarOuFalhar(Long usuarioId) {
@@ -67,4 +74,5 @@ public class CadastroUsuarioService {
         
         usuario.adicionarGrupo(grupo);
     }
+
 }

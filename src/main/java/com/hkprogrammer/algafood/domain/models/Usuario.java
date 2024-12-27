@@ -1,21 +1,12 @@
 package com.hkprogrammer.algafood.domain.models;
 
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import lombok.Data;
 
 @Data
 @Entity
@@ -51,6 +42,10 @@ public class Usuario {
 
 	public boolean adicionarGrupo(Grupo grupo) {
 	    return getGrupos().add(grupo);
+	}
+
+	public boolean isNovo() {
+		return getId() == null;
 	}
 
 }
