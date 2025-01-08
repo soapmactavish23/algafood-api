@@ -1,22 +1,16 @@
 package com.hkprogrammer.algafood.api.v1.controller;
 
 import com.hkprogrammer.algafood.api.v1.AlgaLink;
+import com.hkprogrammer.algafood.api.v1.assembler.PermissaoModelAssembler;
+import com.hkprogrammer.algafood.api.v1.model.PermissaoModel;
+import com.hkprogrammer.algafood.core.security.CheckSecurity;
+import com.hkprogrammer.algafood.domain.models.Grupo;
+import com.hkprogrammer.algafood.domain.service.CadastroGrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.hkprogrammer.algafood.api.v1.assembler.PermissaoModelAssembler;
-import com.hkprogrammer.algafood.api.v1.model.PermissaoModel;
-import com.hkprogrammer.algafood.domain.models.Grupo;
-import com.hkprogrammer.algafood.domain.service.CadastroGrupoService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/v1/grupos/{grupoId}/permissoes")
@@ -32,6 +26,7 @@ public class GrupoPermissaoController {
 	private AlgaLink algaLinks;
 
 	@GetMapping
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	public CollectionModel<PermissaoModel> listar(@PathVariable Long grupoId) {
 		Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
 
@@ -51,6 +46,7 @@ public class GrupoPermissaoController {
 
 	@DeleteMapping("/{permissaoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	public ResponseEntity<Void> desassociar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
 		cadastroGrupo.desassociarPermissao(grupoId, permissaoId);
 
@@ -59,6 +55,7 @@ public class GrupoPermissaoController {
 
 	@PutMapping("/{permissaoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	public ResponseEntity<Void> associar(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
 		cadastroGrupo.associarPermissao(grupoId, permissaoId);
 

@@ -2,6 +2,7 @@ package com.hkprogrammer.algafood.api.v1.controller;
 
 import com.hkprogrammer.algafood.api.v1.assembler.PermissaoModelAssembler;
 import com.hkprogrammer.algafood.api.v1.model.PermissaoModel;
+import com.hkprogrammer.algafood.core.security.CheckSecurity;
 import com.hkprogrammer.algafood.domain.models.Permissao;
 import com.hkprogrammer.algafood.domain.repository.PermissaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class PermissaoController {
     private PermissaoModelAssembler permissaoModelAssembler;
 
     @GetMapping
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     public CollectionModel<PermissaoModel> listar() {
         List<Permissao> todasPermissoes = permissaoRepository.findAll();
 

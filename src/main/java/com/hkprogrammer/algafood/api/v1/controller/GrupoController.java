@@ -1,28 +1,19 @@
 package com.hkprogrammer.algafood.api.v1.controller;
 
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hkprogrammer.algafood.api.v1.assembler.GrupoInputDisassembler;
 import com.hkprogrammer.algafood.api.v1.assembler.GrupoModelAssembler;
 import com.hkprogrammer.algafood.api.v1.model.GrupoModel;
 import com.hkprogrammer.algafood.api.v1.model.input.GrupoInput;
+import com.hkprogrammer.algafood.core.security.CheckSecurity;
 import com.hkprogrammer.algafood.domain.models.Grupo;
 import com.hkprogrammer.algafood.domain.repository.GrupoRepository;
 import com.hkprogrammer.algafood.domain.service.CadastroGrupoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -42,6 +33,7 @@ public class GrupoController {
     private GrupoInputDisassembler grupoInputDisassembler;
 
     @GetMapping
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     public CollectionModel<GrupoModel> listar() {
         List<Grupo> todosGrupos = grupoRepository.findAll();
 
@@ -49,6 +41,7 @@ public class GrupoController {
     }
 
     @GetMapping("/{grupoId}")
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     public GrupoModel buscar(@PathVariable Long grupoId) {
         Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
 
@@ -57,6 +50,7 @@ public class GrupoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     public GrupoModel adicionar(@RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupo = grupoInputDisassembler.toDomainObject(grupoInput);
 
@@ -66,6 +60,7 @@ public class GrupoController {
     }
 
     @PutMapping("/{grupoId}")
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     public GrupoModel atualizar(@PathVariable Long grupoId,
             @RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupoAtual = cadastroGrupo.buscarOuFalhar(grupoId);
@@ -79,6 +74,7 @@ public class GrupoController {
 
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     public void remover(@PathVariable Long grupoId) {
         cadastroGrupo.excluir(grupoId);
     }
