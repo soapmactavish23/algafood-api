@@ -10,6 +10,7 @@ import com.hkprogrammer.algafood.api.v1.model.input.PedidoInput;
 import com.hkprogrammer.algafood.core.data.PageWrapper;
 import com.hkprogrammer.algafood.core.data.PageableTranslator;
 import com.hkprogrammer.algafood.core.security.AlgaSecurity;
+import com.hkprogrammer.algafood.core.security.CheckSecurity;
 import com.hkprogrammer.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.hkprogrammer.algafood.domain.exception.NegocioException;
 import com.hkprogrammer.algafood.domain.filter.PedidoFilter;
@@ -69,6 +70,7 @@ public class PedidoController {
 	}
 
 	@GetMapping("/{codigoPedido}")
+	@CheckSecurity.Pedidos.PodeBuscar
 	public PedidoModel buscar(@PathVariable String codigoPedido) {
 		Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
 
