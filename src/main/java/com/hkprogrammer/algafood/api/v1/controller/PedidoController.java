@@ -57,6 +57,7 @@ public class PedidoController {
 	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
 	@GetMapping
+	@CheckSecurity.Pedidos.PodePesquisar
 	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro,
 												   @PageableDefault(size = 10) Pageable pageable) {
 		Pageable pageableTraduzido = traduzirPageable(pageable);
@@ -78,6 +79,7 @@ public class PedidoController {
 	}
 
 	@PostMapping
+	@CheckSecurity.Pedidos.PodeCriar
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoModel adicionar(@Valid @RequestBody PedidoInput pedidoInput) {
 		try {

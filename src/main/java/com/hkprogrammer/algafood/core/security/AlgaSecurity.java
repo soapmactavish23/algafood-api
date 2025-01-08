@@ -1,5 +1,6 @@
 package com.hkprogrammer.algafood.core.security;
 
+import com.hkprogrammer.algafood.domain.repository.PedidoRepository;
 import com.hkprogrammer.algafood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AlgaSecurity {
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     @Autowired
     private RestauranteRepository restauranteRepository;
@@ -23,7 +27,14 @@ public class AlgaSecurity {
     }
 
     public boolean gerenciaRestaurante(Long restauranteId) {
+        if (restauranteId == null) {
+            return false;
+        }
+
         return restauranteRepository.existsResponsavel(restauranteId, getUsuarioId());
     }
 
+    public boolean gerenciaRestauranteDoPedido(String codigoPedido) {
+        return pedidoRepository.isPedidoGerenciadoPor(codigoPedido, getUsuarioId());
+    }
 }
