@@ -3,6 +3,7 @@ package com.hkprogrammer.algafood.api.v1.controller;
 import com.hkprogrammer.algafood.api.v1.AlgaLink;
 import com.hkprogrammer.algafood.api.v1.assembler.UsuarioModelAssembler;
 import com.hkprogrammer.algafood.api.v1.model.UsuarioModel;
+import com.hkprogrammer.algafood.core.security.AlgaSecurity;
 import com.hkprogrammer.algafood.core.security.CheckSecurity;
 import com.hkprogrammer.algafood.domain.models.Restaurante;
 import com.hkprogrammer.algafood.domain.service.CadastroRestauranteService;
@@ -25,25 +26,31 @@ public class RestauranteUsuarioResponsavelController {
     @Autowired
     private AlgaLink algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @GetMapping
-    @CheckSecurity.Restaurantes.PodeConsultar
+    @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
         CollectionModel<UsuarioModel> usuariosModel = usuarioModelAssembler
                 .toCollectionModel(restaurante.getResponsaveis())
-                .removeLinks()
-                .add(algaLinks.linkToRestauranteResponsaveis(restauranteId))
-                .add(algaLinks.linkToRestauranteResponsavelAssociacao(restauranteId, "associar"));
+                .removeLinks();
 
-        usuariosModel.getContent().stream().forEach(usuarioModel -> {
-            usuarioModel.add(algaLinks.linkToRestauranteResponsavelDesassociacao(
-                    restauranteId, usuarioModel.getId(), "desassociar"));
-        });
+        usuariosModel.add(algaLinks.linkToRestauranteResponsaveis(restauranteId));
+
+        if (algaSecurity.podeGerenciarCadastroRestaurantes()) {
+            usuariosModel.add(algaLinks.linkToRestauranteResponsavelAssociacao(restauranteId, "associar"));
+
+            usuariosModel.getContent().stream().forEach(usuarioModel -> {
+                usuarioModel.add(algaLinks.linkToRestauranteResponsavelDesassociacao(
+                        restauranteId, usuarioModel.getId(), "desassociar"));
+            });
+        }
 
         return usuariosModel;
     }
-
 
     @DeleteMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

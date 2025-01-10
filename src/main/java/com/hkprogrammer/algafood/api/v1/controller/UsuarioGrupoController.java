@@ -3,6 +3,7 @@ package com.hkprogrammer.algafood.api.v1.controller;
 import com.hkprogrammer.algafood.api.v1.AlgaLink;
 import com.hkprogrammer.algafood.api.v1.assembler.GrupoModelAssembler;
 import com.hkprogrammer.algafood.api.v1.model.GrupoModel;
+import com.hkprogrammer.algafood.core.security.AlgaSecurity;
 import com.hkprogrammer.algafood.core.security.CheckSecurity;
 import com.hkprogrammer.algafood.domain.models.Usuario;
 import com.hkprogrammer.algafood.domain.service.CadastroUsuarioService;
@@ -25,19 +26,25 @@ public class UsuarioGrupoController {
     @Autowired
     private AlgaLink algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @GetMapping
     @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     public CollectionModel<GrupoModel> listar(@PathVariable Long usuarioId) {
         Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
 
         CollectionModel<GrupoModel> gruposModel = grupoModelAssembler.toCollectionModel(usuario.getGrupos())
-                .removeLinks()
-                .add(algaLinks.linkToUsuarioGrupoAssociacao(usuarioId, "associar"));
+                .removeLinks();
 
-        gruposModel.getContent().forEach(grupoModel -> {
-            grupoModel.add(algaLinks.linkToUsuarioGrupoDesassociacao(
-                    usuarioId, grupoModel.getId(), "desassociar"));
-        });
+        if (algaSecurity.podeEditarUsuariosGruposPermissoes()) {
+            gruposModel.add(algaLinks.linkToUsuarioGrupoAssociacao(usuarioId, "associar"));
+
+            gruposModel.getContent().forEach(grupoModel -> {
+                grupoModel.add(algaLinks.linkToUsuarioGrupoDesassociacao(
+                        usuarioId, grupoModel.getId(), "desassociar"));
+            });
+        }
 
         return gruposModel;
     }

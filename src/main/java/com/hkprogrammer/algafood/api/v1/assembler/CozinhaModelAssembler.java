@@ -2,13 +2,13 @@ package com.hkprogrammer.algafood.api.v1.assembler;
 
 import com.hkprogrammer.algafood.api.v1.AlgaLink;
 import com.hkprogrammer.algafood.api.v1.controller.CozinhaController;
+import com.hkprogrammer.algafood.api.v1.model.CozinhaModel;
+import com.hkprogrammer.algafood.core.security.AlgaSecurity;
+import com.hkprogrammer.algafood.domain.models.Cozinha;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
-
-import com.hkprogrammer.algafood.api.v1.model.CozinhaModel;
-import com.hkprogrammer.algafood.domain.models.Cozinha;
 
 @Component
 public class CozinhaModelAssembler
@@ -20,6 +20,9 @@ public class CozinhaModelAssembler
     @Autowired
     private AlgaLink algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public CozinhaModelAssembler() {
         super(CozinhaController.class, CozinhaModel.class);
     }
@@ -29,7 +32,9 @@ public class CozinhaModelAssembler
         CozinhaModel cozinhaModel = createModelWithId(cozinha.getId(), cozinha);
         modelMapper.map(cozinha, cozinhaModel);
 
-        cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
+        if (algaSecurity.podeConsultarCozinhas()) {
+            cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
+        }
 
         return cozinhaModel;
     }
