@@ -28,3 +28,4 @@ services:
 
 # docker build -t hkprogrammer/algafood-api --no-cache --build-arg JAR_FILE=algafood-api-0.0.1-SNAPSHOT.jar .
 # docker-compose up
+# 172.21.0.4
