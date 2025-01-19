@@ -7,7 +7,7 @@ networks:
 services:
   algafood-mysql:
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
+    #command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_ROOT_PASSWORD: 123456
@@ -18,11 +18,13 @@ services:
 
   algafood-api:
     image: hkprogrammer/algafood-api
+    command: ["/wait-for-it.sh", "algafood-mysql:3306", "-t", "30", "--", "java", "-jar", "api.jar"]
     environment:
       DB_HOST: algafood-mysql
-    ports:
-      - "8080:8080"
     networks:
       - algafood-network
     depends_on:
       - algafood-mysql
+
+# docker build -t hkprogrammer/algafood-api --no-cache --build-arg JAR_FILE=algafood-api-0.0.1-SNAPSHOT.jar .
+# docker-compose up
