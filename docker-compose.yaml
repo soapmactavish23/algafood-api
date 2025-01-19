@@ -26,6 +26,17 @@ services:
     depends_on:
       - algafood-mysql
 
+  algafood-proxy:
+    build: ./nginx
+    image: algafood-proxy
+    ports:
+      - "80:80"
+    networks:
+      - algafood-network
+    depends_on:
+      - algafood-api
+
+
 # docker build -t hkprogrammer/algafood-api --no-cache --build-arg JAR_FILE=algafood-api-0.0.1-SNAPSHOT.jar .
 # docker-compose up
 # 172.21.0.4
